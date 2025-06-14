@@ -1,0 +1,72 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: start;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    flex-direction: column;
+    font-family: Helvetica;
+}
+
+body > * {
+    flex-shrink: 0;
+}
+
+header, footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+header {
+    background-repeat: repeat;
+    background-image: url('images/wood-bg.png');
+}
+
+header > img {
+    height: 10vmin;
+    width: calc(10vmin * 1710/277);
+    margin: 1% calc(0.5 * (100vw - (10vmin * 1710/277)));
+}
+
+#main {
+    width: 100%;
+    flex-grow: 1;
+    background-image: url("images/map-blur.png");
+    background-color: #4f4b;
+    background-blend-mode: soft-light;
+    background-size: cover;
+}
+
+#tabs-top, #tabs-bottom {
+    width: 100%;
+    z-index: 500;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    background-color: darkgreen;
+}
+
+#tabs-top > a, #tabs-bottom > a {
+    padding: 1% 0;
+    flex-grow: 1;
+    color: white;
+    background-color: darkgreen;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+
+#tabs-top > a:hover, #tabs-bottom > a:hover {
+    color: darkgreen;
+    background: lightgreen;
+}
+
+a#current-page {
+    color: greenyellow;
+    background-color: green;
+}

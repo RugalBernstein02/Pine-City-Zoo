@@ -1,0 +1,70 @@
+@keyframes to-green {
+    from {
+        color: initial;
+    }
+    to {
+        color: darkgreen;
+    }
+}
+
+@keyframes gradient-move {
+    from {
+        background-position-x: 0;
+    }
+    to {
+        background-position-x: 100%;
+    }
+}
+
+.stylish-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.stylish-list a {
+    color: black;
+    text-decoration: none;
+}
+
+.stylish-list-item {
+    display: grid;
+    width: 80%;
+    margin: 1% 10%;
+    grid-template-columns: 10% auto;
+    background-color: rgba(200, 200, 200, 0.75);
+}
+
+.stylish-list-item:hover {
+    background-image: linear-gradient(90deg, #7aff7aff, #ffffff74, #7aff7aff);
+    background-size: 33%;
+    animation: gradient-move 2s linear 0s infinite forwards;
+}
+
+.stylish-list-item * {
+    align-self: center;
+}
+
+.stylish-list-item > img {
+    width: 90%;
+    margin: 5%;
+    grid-row: 1 / 3;
+}
+
+.stylish-list-desc, .stylish-list-name {
+    margin: 0;
+    padding: 0;
+    grid-column: 2 / 3;
+}
+
+.stylish-list-name {
+    align-self: end;
+    font-size: 200%;
+    grid-row: 1 / 2;
+    font-weight: bold;
+}
+
+.stylish-list-desc {
+    align-self: start;
+    grid-row: 2 / 3;
+}

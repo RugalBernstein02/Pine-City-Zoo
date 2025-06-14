@@ -1,0 +1,47 @@
+#main {
+    padding: 2%;
+    width: 96%;
+}
+
+.has-extra {
+    text-decoration: dotted underline 2px;
+}
+
+.has-extra > .extra-hidden {
+    display: none;
+}
+
+.extra-visible {
+    display: inline;
+    position: relative;
+    color: black;
+    background-color: lightblue;
+    margin-left: 0.5ch;
+    padding: 0 0.5ch;
+    border: 1px solid black;
+}
+
+h1 {
+    text-transform: uppercase;
+    padding: 0;
+    margin-bottom: 0;
+    width: 90%;
+    color: #572800;
+}
+
+#main-image {
+    width: 100%;
+    margin: 0 1% 1% 0;
+    float: left;
+}
+
+#next-button {
+    position: block;
+    float: right;
+    margin-top: 25px;
+    height: 40px;
+}
+
+.has-extra img {
+    width: 10%;
+}
