@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100vw;
-    height: 100vh;
+    height: max-content;
     display: flex;
     align-items: start;
     overflow-x: hidden;
@@ -37,8 +37,8 @@ header > img {
     width: 100%;
     flex-grow: 1;
     background-image: url("images/map-blur.png");
-    background-color: #4f4b;
-    background-blend-mode: soft-light;
+    background-color: #afaa;
+    background-blend-mode: lighten;
     background-size: cover;
 }
 
