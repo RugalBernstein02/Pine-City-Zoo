@@ -49,7 +49,7 @@
         
         <div id="main">
             <div id="info-div">
-                <p id="instructions"><b>Click on a sign or animal to see more information.</b></p>
+                <p id="instructions"><b>Click on a sign, building or animal to see more information.</b></p>
             </div>
             <map name="links"></map>
             <img id="main-image" src="../images/map.png" usemap="#links"></img>
@@ -94,13 +94,31 @@
         const areas = [
             {
                 "shape": "rect",
-                "coords": [wrel(36.4), hrel(12.24), wrel(55.58), hrel(15.25)].join(" "),
+                "coords": [wrel(1), hrel(1), wrel(24.12), hrel(10.42)].join(" "),
+                "name": "Wild Things Coffee Shop",
+                "href": "../places/coffee-shop.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(11.69), hrel(12.06), wrel(33.86), hrel(30.3)].join(" "),
+                "name": "Mo's Pizza",
+                "href": "../places/pizza-shop.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(12.66), hrel(28.06), wrel(25.84), hrel(42.42)].join(" "),
+                "name": "Gorilla",
+                "href": "../animals/gorilla.html",
+            },
+            {
+                "shape": "poly",
+                "coords": [wrel(36.4), hrel(12.48), wrel(36.25), hrel(15.09), wrel(44.12), hrel(23.64), wrel(49.66), hrel(27.76), wrel(57.68), hrel(30.55), wrel(62.17), hrel(27.88), wrel(62.17), hrel(18.55), wrel(55.58), hrel(12.48)].join(" "),
                 "name": "Pandas",
                 "href": "../animals/pandas.html",
             },
             {
                 "shape": "rect",
-                "coords": [wrel(75.5), hrel(10.5), wrel(100), hrel(13)].join(" "),
+                "coords": [wrel(75.5), hrel(10.5), wrel(99.5), hrel(28.97)].join(" "),
                 "name": "Lions",
                 "href": "../animals/lions.html",
             },
@@ -109,46 +127,105 @@
                 "coords": [wrel(1.25), hrel(54.3), wrel(19.78), hrel(57.64)].join(" "),
                 "name": "Monkey Trail",
                 "href": "../places/monkey-trail.html",
-            }
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(1.25), hrel(57.64), wrel(13.26), hrel(71.39)].join(" "),
+                "name": "Monkeys",
+                "href": "../animals/monkeys.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(76.11), hrel(31.28), wrel(99), hrel(44.67)].join(" "),
+                "name": "Elephants",
+                "href": "../animals/elephants.html",
+            },
+            {
+                "shape": "poly",
+                "coords": [wrel(80.83), hrel(45), wrel(81.03), hrel(53.21), wrel(86.14), hrel(53.09), wrel(86.52), hrel(49.7), wrel(90.49), hrel(48.24), wrel(96.25), hrel(51.64), wrel(99.5), hrel(51.09), wrel(99.5), hrel(49.51), wrel(99.5), hrel(46.06), wrel(88.16), hrel(43.45)].join(" "),
+                "name": "Amphitheatre",
+                "href": "../places/amphitheatre.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(85.84), hrel(48.24), wrel(95.43), hrel(54.54)].join(" "),
+                "name": "Dine @The Zoo",
+                "href": "../places/restaurant.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(32.36), hrel(1), wrel(51.54), hrel(12.00)].join(" "),
+                "name": "Gemsbok",
+                "href": "../animals/gemsbok.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(67.27), hrel(53.09), wrel(83.82), hrel(77.87)].join(" "),
+                "name": "Giraffe",
+                "href": "../animals/giraffe.html",
+            },
+            {
+                "shape": "rect",
+                "coords": [wrel(84.19), hrel(65.69), wrel(94.6), hrel(78.42)].join(" "),
+                "name": "Koala",
+                "href": "../animals/koala.html",
+            },
         ];
-
-        // const canvas = document.createElement("canvas");
-        // const canvasW = (canvas.width = img.width);
-        // const canvasH = (canvas.height = img.height);
-        // Object.assign(canvas.style, {
-        //     position: "absolute",
-        //     left: `${img.offsetLeft}px`,
-        //     width: `${img.offsetWidth}px`,
-        //     top: `${img.offsetTop}px`,
-        //     height: `${img.offsetHeight}px`,
-        //     zIndex: 0,
-        // });
-        // document.querySelector("#main").appendChild(canvas);
-
-        // const ctx = canvas.getContext("2d");
-        // ctx.lineWidth = 2;
-        // ctx.strokeStyle = "red";
-
-        for (let area of areas) {
-            const areaE = document.createElement("area");
-            for (key in area) {
-                areaE.setAttribute(key, area[key]);
+        
+        debug = true;
+        // Debugging tool:
+        // Create a canvas over the map image and draws the bounds of the area elements being created.
+        // This way, you can tell where the area is, relative to the image (since areas are not visible.)
+        const canvas = document.createElement("canvas");
+        const canvasW = (canvas.width = img.width);
+        const canvasH = (canvas.height = img.height);
+        if (debug) {document.querySelector("#main").appendChild(canvas);}
+        const ctx = canvas.getContext("2d");
+        ctx.lineWidth = 2;
+        function drawArea (area) {
+            r = area.coords.split(" ").map(Number);
+            ctx.strokeStyle = "red";
+            switch (area.shape) {
+                case "rect":
+                    ctx.strokeRect(r[0], r[1], r[2] - r[0], r[3] - r[1]);
+                    break;
+                case "poly":
+                    ctx.beginPath();
+                    ctx.moveTo(r[0], r[1]);
+                    for (let i = 0; i < r.length; i += 2) {
+                        ctx.lineTo(r[i], r[i + 1]);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                    break;
             }
-            document.querySelector("map").appendChild(areaE);
         }
+        
+        console.debug(areas.length);
 
-        // canvas.onmousemove = event => {
-        //     console.debug(event)
-        //     area = areas.filter(a => a.contains(event.offsetX, event.offsetY));
-        //     if (area.length > 1) {
-        //         area = area[0];
-        //         document.querySelector("#hover-name").innerText = area.name;
-        //         console.debug({event: event, area: area});
-        //     }
-        //     else {
-        //         document.querySelector("#hover-name").innerText = ""
-        //         console.debug("no area");
-        //     }
-        // }
+        function makeAreas () {
+            Object.assign(canvas.style, {
+                position: "absolute",
+                left: `${img.offsetLeft}px`,
+                width: `${img.offsetWidth}px`,
+                top: `${img.offsetTop}px`,
+                height: `${img.offsetHeight}px`,
+                zIndex: 0,
+            });
+            document.querySelector("map").innerHTML = "";
+            ctx.clearRect(0, 0, canvasW, canvasH);
+            for (let area of areas) {
+                const areaE = document.createElement("area");
+                for (key in area) {
+                    areaE.setAttribute(key, area[key]);
+                }
+                document.querySelector("map").appendChild(areaE);
+                if (debug) {drawArea(area);}
+            }
+        }
+        makeAreas();
+        window.onresize = makeAreas;
+
+        
     </script>
 </html>
