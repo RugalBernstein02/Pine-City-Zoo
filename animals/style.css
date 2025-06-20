@@ -5,6 +5,7 @@
 
 .has-extra {
     text-decoration: dotted underline 2px;
+    font-weight: bold;
 }
 
 .extra-hidden {
