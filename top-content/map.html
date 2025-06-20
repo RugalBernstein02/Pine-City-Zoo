@@ -15,12 +15,13 @@
 
             #instructions {
                 display: block;
-                text-align: justify;
+                text-align: center;
+                margin: 1% 0 0 0;
             }
 
             #main-image-container {
                 width: 95%;
-                margin: 1% 2.5%;
+                margin: 0.5% 2.5%;
                 border: 1px solid rgb(200, 0, 115);
             }
 
@@ -33,6 +34,10 @@
                 padding: 0;
                 border: 1px solid black;
                 border: 1px solid rgb(200, 0, 115);
+            }
+
+            .pin {
+                position: absolute;
             }
         </style>
     </head>
@@ -48,11 +53,8 @@
         </header>
         
         <div id="main">
-            <div id="info-div">
-                <p id="instructions"><b>Click on a sign, building or animal to see more information.</b></p>
-            </div>
-            <map name="links"></map>
-            <img id="main-image" src="../images/map.png" usemap="#links"></img>
+            <p id="instructions">Click on a <b>location pin</b> to see more information.</p>
+            <img id="main-image" src="../images/zoo-map-skelton.jpg"></img>
         </div>
         
         <footer>
@@ -64,168 +66,52 @@
         
     </body>
 
-    <script>
-        class Area {
-            constructor (left, top, right, bottom, name, href) {
-                this.left = left;
-                this.top = top;
-                this.right = right;
-                this.bottom = bottom;
-                this.width = right - left;
-                this.height = bottom - top;
-                this.name = name;
-                this.href = href;
-            }
+    <script async="false">
+        const mapImg = document.querySelector("#main-image");
 
-            contains (x, y) {
-                return x >= this.left &&
-                    x <= this.right &&
-                    y >= this.top &&
-                    y <= this.bottom;
-            }
-        }
-        const R = Area;
-
-        const img = document.querySelector("#main-image");
-        const rect = (left, top, right, bottom) => new DOMRect(left, top, right - left, bottom - top); // create DOMRect with different argument style
-        const wrel = p => Math.floor(p / 100 * img.clientWidth); // resolve percentages of image width (relative width)
-        const hrel = p => Math.floor(p / 100 * img.clientHeight); // resolve percentages of image height  (relative height)
-        
-        const areas = [
-            {
-                "shape": "rect",
-                "coords": [wrel(1), hrel(1), wrel(24.12), hrel(10.42)].join(" "),
-                "name": "Wild Things Coffee Shop",
-                "href": "../places/coffee-shop.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(11.69), hrel(12.06), wrel(33.86), hrel(30.3)].join(" "),
-                "name": "Mo's Pizza",
-                "href": "../places/pizza-shop.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(12.66), hrel(28.06), wrel(25.84), hrel(42.42)].join(" "),
-                "name": "Gorilla",
-                "href": "../animals/gorilla.html",
-            },
-            {
-                "shape": "poly",
-                "coords": [wrel(36.4), hrel(12.48), wrel(36.25), hrel(15.09), wrel(44.12), hrel(23.64), wrel(49.66), hrel(27.76), wrel(57.68), hrel(30.55), wrel(62.17), hrel(27.88), wrel(62.17), hrel(18.55), wrel(55.58), hrel(12.48)].join(" "),
-                "name": "Pandas",
-                "href": "../animals/pandas.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(75.5), hrel(10.5), wrel(99.5), hrel(28.97)].join(" "),
-                "name": "Lions",
-                "href": "../animals/lions.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(1.25), hrel(54.3), wrel(19.78), hrel(57.64)].join(" "),
-                "name": "Monkey Trail",
-                "href": "../places/monkey-trail.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(1.25), hrel(57.64), wrel(13.26), hrel(71.39)].join(" "),
-                "name": "Monkeys",
-                "href": "../animals/monkeys.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(76.11), hrel(31.28), wrel(99), hrel(44.67)].join(" "),
-                "name": "Elephants",
-                "href": "../animals/elephants.html",
-            },
-            {
-                "shape": "poly",
-                "coords": [wrel(80.83), hrel(45), wrel(81.03), hrel(53.21), wrel(86.14), hrel(53.09), wrel(86.52), hrel(49.7), wrel(90.49), hrel(48.24), wrel(96.25), hrel(51.64), wrel(99.5), hrel(51.09), wrel(99.5), hrel(49.51), wrel(99.5), hrel(46.06), wrel(88.16), hrel(43.45)].join(" "),
-                "name": "Amphitheatre",
-                "href": "../places/amphitheatre.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(85.84), hrel(48.24), wrel(95.43), hrel(54.54)].join(" "),
-                "name": "Dine @The Zoo",
-                "href": "../places/restaurant.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(32.36), hrel(1), wrel(51.54), hrel(12.00)].join(" "),
-                "name": "Gemsbok",
-                "href": "../animals/gemsbok.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(67.27), hrel(53.09), wrel(83.82), hrel(77.87)].join(" "),
-                "name": "Giraffe",
-                "href": "../animals/giraffe.html",
-            },
-            {
-                "shape": "rect",
-                "coords": [wrel(84.19), hrel(65.69), wrel(94.6), hrel(78.42)].join(" "),
-                "name": "Koala",
-                "href": "../animals/koala.html",
-            },
+        // x and y are measured as percentages of mapImg's total width and height respectively
+        const pins = [
+            {x: 31, y: 6, href: "../places/coffee-shop.html"},
+            {x: 33.2, y: 13.47, href: "../places/pizza-shop.html"},
+            {x: 10.5, y: 26.93, href: "../places/lost-forest.html"},
+            {x: 44.67, y: 8.5, href: "../animals/gemsbok.html"},
+            {x: 50.53, y: 15.84, href: "../animals/pandas.html"},
+            {x: 73.46, y: 22.57, href: "../animals/lions.html"},
+            {x: 74, y: 34.85, href: "../animals/elephants.html"},
+            {x: 59.33, y: 42.77, href: "../animals/warthog.html"},
+            {x: 74.13, y: 53.27, href: "../places/restaurant.html"},
+            {x: 32.8, y: 30.89, href: "../places/gorilla.html"},
+            {x: 23.87, y: 45.15, href: "../animals/monkeys.html"},
+            {x: 30.4, y: 54.85, href: "../places/monkey-trail.html"},
+            {x: 7.6, y: 70.69, href: "../places/insect-house.html"},
+            {x: 71.73, y: 43.76, href: "../places/amphitheatre.html"},
+            {x: 72, y: 67.92, href: "../places/koalas.html"},
+            {x: 63.06, y: 54.05, href: "../places/giraffes.html"},
         ];
         
-        debug = true;
-        // Debugging tool:
-        // Create a canvas over the map image and draws the bounds of the area elements being created.
-        // This way, you can tell where the area is, relative to the image (since areas are not visible.)
-        const canvas = document.createElement("canvas");
-        const canvasW = (canvas.width = img.width);
-        const canvasH = (canvas.height = img.height);
-        if (debug) {document.querySelector("#main").appendChild(canvas);}
-        const ctx = canvas.getContext("2d");
-        ctx.lineWidth = 2;
-        function drawArea (area) {
-            r = area.coords.split(" ").map(Number);
-            ctx.strokeStyle = "red";
-            switch (area.shape) {
-                case "rect":
-                    ctx.strokeRect(r[0], r[1], r[2] - r[0], r[3] - r[1]);
-                    break;
-                case "poly":
-                    ctx.beginPath();
-                    ctx.moveTo(r[0], r[1]);
-                    for (let i = 0; i < r.length; i += 2) {
-                        ctx.lineTo(r[i], r[i + 1]);
-                    }
-                    ctx.closePath();
-                    ctx.stroke();
-                    break;
+        function makePins (e) {
+            // remove existing pins
+            document.querySelectorAll("a.pin").forEach(element => element.remove());
+            // add pins
+            for (let pin of pins) {
+                let {x, y, href} = pin;
+                const img = document.createElement("img");
+                img.src = "../images/red-pin.png";
+                img.style.width = "5vmax";
+                img.style.height = "5vmax";
+                const a = document.createElement("a");
+                a.appendChild(img);
+                a.href = href;
+                a.setAttribute("class", "pin");
+                x = mapImg.clientWidth * (x / 100);
+                y = mapImg.clientHeight * (y / 100);
+                a.style.left = `calc(${mapImg.offsetLeft + x}px - 2.5vmax)`;
+                a.style.top = `calc(${mapImg.offsetTop + y}px - 5vmax)`;
+                document.body.appendChild(a);
             }
         }
-        
-        console.debug(areas.length);
 
-        function makeAreas () {
-            Object.assign(canvas.style, {
-                position: "absolute",
-                left: `${img.offsetLeft}px`,
-                width: `${img.offsetWidth}px`,
-                top: `${img.offsetTop}px`,
-                height: `${img.offsetHeight}px`,
-                zIndex: 0,
-            });
-            document.querySelector("map").innerHTML = "";
-            ctx.clearRect(0, 0, canvasW, canvasH);
-            for (let area of areas) {
-                const areaE = document.createElement("area");
-                for (key in area) {
-                    areaE.setAttribute(key, area[key]);
-                }
-                document.querySelector("map").appendChild(areaE);
-                if (debug) {drawArea(area);}
-            }
-        }
-        makeAreas();
-        window.onresize = makeAreas;
-
-        
+        window.onload = makePins;
+        window.onresize = makePins;
     </script>
 </html>
